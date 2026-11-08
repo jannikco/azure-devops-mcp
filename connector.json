@@ -1,0 +1,294 @@
+{
+  "id": "azure-devops",
+  "appSlug": "azure-devops",
+  "name": "Azure DevOps",
+  "version": "0.2.0",
+  "baseUrl": "https://dev.azure.com/{AZURE_DEVOPS_ORG}",
+  "auth": {
+    "type": "basic",
+    "usernameEnv": "AZURE_DEVOPS_USERNAME",
+    "passwordEnv": "AZURE_DEVOPS_PAT"
+  },
+  "tools": [
+    {
+      "name": "list_projects",
+      "description": "List projects.",
+      "method": "GET",
+      "path": "/_apis/projects",
+      "readOnly": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "apiVersion": {
+            "type": "string",
+            "const": "7.1"
+          },
+          "top": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "continuationToken": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Value"
+          }
+        },
+        "required": [
+          "apiVersion"
+        ],
+        "additionalProperties": false
+      },
+      "bindings": {
+        "path": [],
+        "query": {
+          "apiVersion": "api-version",
+          "top": "$top",
+          "continuationToken": "continuationToken"
+        },
+        "body": {}
+      },
+      "sampleArguments": {
+        "apiVersion": "7.1",
+        "top": 10
+      },
+      "provenance": [
+        "https://learn.microsoft.com/en-us/rest/api/azure/devops/core/projects/list?view=azure-devops-rest-7.1",
+        "https://learn.microsoft.com/en-us/rest/api/azure/devops/build/builds/list?view=azure-devops-rest-7.1",
+        "https://learn.microsoft.com/en-us/rest/api/azure/devops/pipelines/runs/run-pipeline?view=azure-devops-rest-7.1"
+      ],
+      "approvalRequired": false,
+      "evidence": {
+        "providerLiveValidation": "not-run",
+        "localValidation": "provider-request-fixture"
+      }
+    },
+    {
+      "name": "list_builds",
+      "description": "List builds.",
+      "method": "GET",
+      "path": "/{project}/_apis/build/builds",
+      "readOnly": true,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "apiVersion": {
+            "type": "string",
+            "const": "7.1"
+          },
+          "project": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Value"
+          },
+          "top": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "continuationToken": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Value"
+          }
+        },
+        "required": [
+          "apiVersion",
+          "project"
+        ],
+        "additionalProperties": false
+      },
+      "bindings": {
+        "path": [
+          "project"
+        ],
+        "query": {
+          "apiVersion": "api-version",
+          "top": "$top",
+          "continuationToken": "continuationToken"
+        },
+        "body": {}
+      },
+      "sampleArguments": {
+        "apiVersion": "7.1",
+        "project": "project-name",
+        "top": 10
+      },
+      "provenance": [
+        "https://learn.microsoft.com/en-us/rest/api/azure/devops/core/projects/list?view=azure-devops-rest-7.1",
+        "https://learn.microsoft.com/en-us/rest/api/azure/devops/build/builds/list?view=azure-devops-rest-7.1",
+        "https://learn.microsoft.com/en-us/rest/api/azure/devops/pipelines/runs/run-pipeline?view=azure-devops-rest-7.1"
+      ],
+      "approvalRequired": false,
+      "evidence": {
+        "providerLiveValidation": "not-run",
+        "localValidation": "provider-request-fixture"
+      }
+    },
+    {
+      "name": "run_pipeline",
+      "description": "Run pipeline.",
+      "method": "POST",
+      "path": "/{project}/_apis/pipelines/{pipelineId}/runs",
+      "readOnly": false,
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "apiVersion": {
+            "type": "string",
+            "const": "7.1"
+          },
+          "project": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Value"
+          },
+          "pipelineId": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 999999999
+          },
+          "branch": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048,
+            "description": "Value"
+          },
+          "templateParameters": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "apiVersion",
+          "project",
+          "pipelineId",
+          "branch"
+        ],
+        "additionalProperties": false
+      },
+      "bindings": {
+        "path": [
+          "project",
+          "pipelineId"
+        ],
+        "query": {
+          "apiVersion": "api-version"
+        },
+        "body": {
+          "branch": "resources.repositories.self.refName",
+          "templateParameters": "templateParameters"
+        }
+      },
+      "sampleArguments": {
+        "apiVersion": "7.1",
+        "project": "project-name",
+        "pipelineId": 1,
+        "branch": "refs/heads/main"
+      },
+      "provenance": [
+        "https://learn.microsoft.com/en-us/rest/api/azure/devops/core/projects/list?view=azure-devops-rest-7.1",
+        "https://learn.microsoft.com/en-us/rest/api/azure/devops/build/builds/list?view=azure-devops-rest-7.1",
+        "https://learn.microsoft.com/en-us/rest/api/azure/devops/pipelines/runs/run-pipeline?view=azure-devops-rest-7.1"
+      ],
+      "approvalRequired": true,
+      "evidence": {
+        "providerLiveValidation": "not-run",
+        "localValidation": "provider-request-fixture"
+      }
+    }
+  ],
+  "workflow": {
+    "name": "Review project builds then approve a selected pipeline run",
+    "description": "Review project builds then approve a selected pipeline run. Read provider data first, then explicitly approve the selected change with operator write opt-in and a unique per-call approval key.",
+    "steps": [
+      "list_projects",
+      "list_builds",
+      "run_pipeline"
+    ]
+  },
+  "provenance": [
+    "https://learn.microsoft.com/en-us/rest/api/azure/devops/core/projects/list?view=azure-devops-rest-7.1",
+    "https://learn.microsoft.com/en-us/rest/api/azure/devops/build/builds/list?view=azure-devops-rest-7.1",
+    "https://learn.microsoft.com/en-us/rest/api/azure/devops/pipelines/runs/run-pipeline?view=azure-devops-rest-7.1"
+  ],
+  "verification": "mock-only",
+  "providerLiveValidation": "not-run",
+  "capabilityEvidence": {
+    "local": {
+      "level": "Tested",
+      "operations": [
+        {
+          "name": "list_projects",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "list_builds",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "run_pipeline",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        }
+      ],
+      "evidenceRefs": [
+        "Provider request/stdio contract tests"
+      ],
+      "mode": "local"
+    },
+    "managed": {
+      "level": "Documented",
+      "operations": [
+        {
+          "name": "list_projects",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "list_builds",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "run_pipeline",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        }
+      ],
+      "evidenceRefs": [],
+      "mode": "managed"
+    }
+  },
+  "sampleEnvironment": {
+    "AZURE_DEVOPS_USERNAME": "pat",
+    "AZURE_DEVOPS_ORG": "organization"
+  },
+  "repoId": "azure-devops-mcp",
+  "product": "pipmcp",
+  "artifactType": "connector",
+  "sourceRevision": "8f754a681f89a0392068499272afd06e4189d6bc3b7f23711a00d2c0c14b6d5f",
+  "managedAvailability": {
+    "status": "import-required",
+    "integration": "openapi-to-mcp",
+    "checkedAt": "2026-11-08T13:20:45.156456+00:00"
+  }
+}

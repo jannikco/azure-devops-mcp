@@ -1,0 +1,21 @@
+{
+  "name": "azure-devops-mcp",
+  "version": "0.2.0",
+  "description": "Review project builds then approve a selected pipeline run. Read provider data first, then explicitly approve the selected change with operator write opt-in and a unique per-call approval key.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "azure-devops-mcp": "server.mjs"
+  },
+  "scripts": {
+    "start": "node example.mjs",
+    "server": "node server.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "2.4.0"
+  }
+}
