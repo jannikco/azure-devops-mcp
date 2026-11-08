@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "product": "pipmcp",
+  "credential": "PIPMCP_API_KEY",
+  "skills": [
+    {
+      "name": "pipmcp-azure-devops",
+      "description": "Connect AI agents to Azure DevOps using one PipMCP API key and actual hosted tool discovery."
+    }
+  ],
+  "files": {
+    "skills/pipmcp-azure-devops/SKILL.md": "0e67d583b45b5bfc211a0818f8c0246ee4af0dc551636b8ef30cb3ee0afde0b8"
+  }
+}
